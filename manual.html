@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-4YcsuKUEsagtJ58ASCMabXR0CsROLMvgM5DphvTjjqo='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self' blob:; base-uri 'self'; form-action 'self';">
+<title>使い方ガイド / User Guide | FlexCal</title>
+<meta name="description" content="FlexCalの使い方ガイド。編集画面・プリントデザイン画面・面付け印刷モード・言語と祝日設定などの使い方をまとめて解説します。日本語/English対応。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://YOUR_USERNAME.github.io/YOUR_REPO/manual.html">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F2A24">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="FlexCal">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FlexCal">
+<meta property="og:title" content="使い方ガイド / User Guide | FlexCal">
+<meta property="og:description" content="FlexCalの全機能をまとめた使い方ガイド(日本語/English)。">
+<meta property="og:url" content="https://YOUR_USERNAME.github.io/YOUR_REPO/manual.html">
+<meta property="og:image" content="https://YOUR_USERNAME.github.io/YOUR_REPO/icons/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://YOUR_USERNAME.github.io/YOUR_REPO/icons/og-image.png">
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- FAQPage structured data, so search engines / AI answer engines can surface
+     these Q&As directly (kept in sync with the Japanese FAQ section below). -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "保存した内容が消えることはありますか?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ブラウザの「閲覧データを削除」機能でサイトデータを消去すると、IndexedDBの内容も一緒に消えます。定期的に「バックアップを保存」しておくことをおすすめします。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "印刷したら思ったレイアウトと違いました。",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ブラウザの印刷ダイアログで「余白:なし」「拡大縮小:100%」になっているか確認してください。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "面付け印刷で区画が小さすぎて文字が見えません。",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "面付け設定にある「超コンパクト表示」を有効にすると、日付とアイコンだけの表示に切り替わります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "表示モードを切り替えたら、行間や余白の設定が変わってしまいました。",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "これは仕様です。カレンダー/リスト表示用と面付け印刷用の行間・余白は別々に保存されます。それぞれのモードで一度調整すれば、次からはそのモード専用の値として記憶されます。"
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body class="manual-body">
+
+<header class="app-header no-print">
+  <div class="brand">
+    <a href="index.html" class="back-btn" title="編集画面へ戻る / Back to editor" aria-label="編集画面へ戻る"><span class="back-arrow">✏️</span><span class="back-label">戻る</span></a>
+    <span class="brand-sep" aria-hidden="true">|</span>
+    <span class="brand-name">FlexCal <span class="brand-sub-inline">使い方ガイド / User Guide</span></span>
+  </div>
+  <div class="manual-lang-toggle" role="group" aria-label="Manual language">
+    <button type="button" id="manualLangJa" class="active">日本語</button>
+    <button type="button" id="manualLangEn">English</button>
+  </div>
+</header>
+
+<main class="manual-page">
+
+  <!-- ================= 目次 / Table of contents ================= -->
+  <nav class="manual-toc" aria-label="目次" id="manualToc">
+    <button type="button" data-goto="intro">はじめに/Intro</button>
+    <button type="button" data-goto="editor">編集画面/Editor</button>
+    <button type="button" data-goto="print">プリント画面/Print design</button>
+    <button type="button" data-goto="planner">面付け印刷/Planner mode</button>
+    <button type="button" data-goto="presets">プリセット/Presets</button>
+    <button type="button" data-goto="locale">言語・祝日/Language &amp; holidays</button>
+    <button type="button" data-goto="printing">印刷/Printing</button>
+    <button type="button" data-goto="privacy">プライバシー/Privacy</button>
+    <button type="button" data-goto="limits">制限/Limitations</button>
+    <button type="button" data-goto="faq">FAQ</button>
+  </nav>
+
+  <!-- ================= JAPANESE ================= -->
+  <div data-manual-lang="ja">
+
+    <p data-anchor="intro" class="manual-intro">
+      FlexCal(フレックスカレンダー)は、日程をマスに書き込んで、自由なレイアウトでA4(またはUS Letter)に印刷できる、<strong>無料・完全オフライン動作</strong>のカレンダー印刷アプリです。入力したデータはこの端末の中(ブラウザのIndexedDB)にだけ保存され、サーバーへの送信は一切行われません。<br>
+      このガイドは、① <strong>編集画面</strong>(日程を入力する画面)と ② <strong>プリントデザイン画面</strong>(見た目を整えて印刷する画面)の順に使い方を説明します。
+    </p>
+
+    <details class="option-group" data-anchor="editor" open>
+      <summary><span class="og-icon" aria-hidden="true">✏️</span><span class="og-title">編集画面(日程の入力)</span><span class="og-desc">まずはここで予定を入れる</span></summary>
+      <div class="option-group-body">
+        <h3>基本操作</h3>
+        <p>カレンダーのマスをクリック(タップ)すると、その日の予定を追加・編集できます。ヘッダーの「今日」ボタンで今日の月に戻れます。矢印(‹ ›)で月を移動、右のプルダウンで表示する月数(1〜12ヶ月)を切り替えられます。</p>
+
+        <h3>1件の予定に設定できる項目</h3>
+        <table>
+          <tr><th>項目</th><th>内容</th></tr>
+          <tr><td>開始・終了時刻</td><td>任意</td></tr>
+          <tr><td>タイトル / 科目</td><td>必須</td></tr>
+          <tr><td>コメント(メモ)</td><td>任意</td></tr>
+          <tr><td>アイコン</td><td>10ジャンル・50種類以上から選択(任意)</td></tr>
+          <tr><td>重要度</td><td>通常 / 重要 / 最重要 の3段階</td></tr>
+        </table>
+        <p class="manual-tip">重要度を上げると、印刷時にそのマスの枠線・背景色が強調されます。マスの大きさそのものは変わりません(サイズを変えると週全体の行が歪んで見づらくなるため、あえてこの仕様にしています)。</p>
+
+        <h3>予定の移動・コピー</h3>
+        <ul>
+          <li><strong>PC:</strong>予定のチップをドラッグして別の日にドロップすると移動します。<code>Option</code>(Mac)/<code>Alt</code>(Windows)キーを押しながらドロップするとコピーになります。</li>
+          <li><strong>スマホ:</strong>チップの中の「⠿」ハンドルをタップすると移動モードになり、続けて移動先の日付をタップすると移動します。移動モード中は「コピーとして配置」のチェックでコピーにできます。</li>
+        </ul>
+
+        <h3>複数日への一括入力</h3>
+        <p>PCでは、複数のマスをクリックしたままドラッグして範囲選択すると、その全部の日に同じ内容の予定をまとめて追加できます。</p>
+
+        <h3>メニュー(⋯ボタン)</h3>
+        <ul>
+          <li><strong>読み込み(インポート):</strong>Googleカレンダーなどから書き出した<code>.ics</code>/<code>.csv</code>ファイルを読み込めます。</li>
+          <li><strong>書き出し(エクスポート):</strong>予定を<code>.ics</code>または<code>.csv</code>として書き出せます。</li>
+          <li><strong>バックアップ:</strong>全データを1つのJSONファイルに保存/復元できます。機種変更のときはこちらを使ってください。</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="print" open>
+      <summary><span class="og-icon" aria-hidden="true">🖨️</span><span class="og-title">プリントデザイン画面(印刷・見た目の調整)</span><span class="og-desc">サイドバーは9つのジャンルに分かれています</span></summary>
+      <div class="option-group-body">
+        <p>編集画面右上の「プリント準備」からこの画面に移動します。左側のサイドバーで見た目を調整し、右側でリアルタイムにプレビューされます。項目が多いため、関連するものごとに見出しでまとめてあります。見出しをクリックすると、その中身が開いたり閉じたりします。</p>
+        <p class="manual-tip"><strong>初めての方は「① デザインをまとめて選ぶ」だけ触れば、それだけで十分きれいに仕上がります。</strong>①〜④は最初から開いた状態、⑤〜⑨は普段あまり触らない詳細設定なので閉じた状態で表示されます。</p>
+        <table>
+          <tr><th>#</th><th>ジャンル</th><th>内容</th></tr>
+          <tr><td>①</td><td>デザインをまとめて選ぶ</td><td>デザインプリセット、マイプリセット</td></tr>
+          <tr><td>②</td><td>内容</td><td>タイトル・概要、期間(開始日・終了日)</td></tr>
+          <tr><td>③</td><td>表示モード</td><td>カレンダー表示 / リスト表示 / 面付け印刷、面付けの詳細設定</td></tr>
+          <tr><td>④</td><td>用紙とページ</td><td>用紙サイズ・向き、週の始まり、ページ数、月の始まり</td></tr>
+          <tr><td>⑤</td><td>配色</td><td>マスの角丸、配色プリセット、日ごとの色・不透明度</td></tr>
+          <tr><td>⑥</td><td>背景画像</td><td>背景画像・不透明度・文字のフチどり</td></tr>
+          <tr><td>⑦</td><td>フォント</td><td>5要素(タイトル/概要/曜日/日付/コメント)ごとのフォント指定、月のはじめの表示</td></tr>
+          <tr><td>⑧</td><td>言語・祝日</td><td>表示言語(8言語)、祝日の国(12ヶ国)</td></tr>
+          <tr><td>⑨</td><td>細かい調整</td><td>概要欄の枠、マスの自動調整、行間、余白、曜日ごとの手動幅</td></tr>
+        </table>
+        <h3>表示モード(③)</h3>
+        <ol>
+          <li><strong>カレンダー表示:</strong>通常のマス目カレンダー。</li>
+          <li><strong>重要日のみリスト表示:</strong>重要度が「重要」以上の予定だけを日付順のリストで表示します。</li>
+          <li><strong>面付け印刷:</strong>1枚のA4用紙を複数の区画に分割して、それぞれに小さなカレンダーを詰め込みます(次の章で詳しく説明します)。</li>
+        </ol>
+        <h3>印刷・PDF保存</h3>
+        <p data-anchor="printing">サイドバー上部の「印刷 / PDF保存」ボタンを押すと、ブラウザの印刷ダイアログが開きます。プリンターで直接印刷するほか、「PDFとして保存」を選べばPDFファイルとして書き出せます。画面右側のズームバーはあくまでプレビューの見た目の拡大縮小であり、実際に印刷される用紙のサイズには影響しません。</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="planner">
+      <summary><span class="og-icon" aria-hidden="true">🗂️</span><span class="og-title">面付け印刷(N-up)モードの詳しい使い方</span><span class="og-desc">手帳やシステム手帳に貼れるサイズに組み直す</span></summary>
+      <div class="option-group-body">
+        <ol>
+          <li><strong>行数・列数を指定:</strong>縦に何分割、横に何分割するかを1〜6の範囲で指定します。例:2行×2列ならA4が4分割されます。</li>
+          <li><strong>境界線をドラッグして自由に調整:</strong>プレビュー上の点線をマウスでドラッグすると、区画の大きさを自由に変えられます。ドラッグ中は実寸(mm)がその場に表示されます(印刷はされません)。「マス目を均等に戻す」でいつでもリセットできます。</li>
+          <li><strong>追加の縮小率:</strong>各区画にぴったり収めた状態から、さらに少し余白を持たせて縮小したいときに使います。</li>
+          <li><strong>内容の割り当て方</strong>を3種類から選べます:
+            <ul>
+              <li>全マスに同じ内容(選択期間全体を複製)</li>
+              <li>自動で連続分割(期間を区画の数だけ月単位で順番に割り振る)</li>
+              <li>マスごとに個別に指定する(区画ごとに開始月・ヶ月数を指定)</li>
+            </ul>
+          </li>
+          <li><strong>超コンパクト表示:</strong>区画が小さすぎる場合、日付の数字とアイコンだけを表示するモードに切り替えられます。</li>
+        </ol>
+        <p class="manual-caution">面付け印刷の境界線ドラッグは、現時点ではPC(マウス)向けの操作のみに対応しています。</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="presets">
+      <summary><span class="og-icon" aria-hidden="true">🎨</span><span class="og-title">マイプリセットとデザインプリセットの違い</span><span class="og-desc">①のセクションにあります</span></summary>
+      <div class="option-group-body">
+        <p><strong>デザインプリセット:</strong>あらかじめ用意された「配色+フォントの組み合わせ」を選ぶものです。配色・不透明度・角丸・月ラベル・フォント(5箇所)をワンクリックでまとめて変更します。10種類あり、あとから個別に微調整することもできます。</p>
+        <p><strong>マイプリセット:</strong>今の全設定(配色・フォント・面付け・祝日・行間や余白など、ほぼ全部)を自分で名前をつけて保存するものです。保存したものは一覧から「適用」でいつでも呼び出せます。「JSONで書き出す」でファイルとして保存し、他の端末で「JSONを読み込む」から読み込むこともできます(※背景画像は含まれません)。</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="locale">
+      <summary><span class="og-icon" aria-hidden="true">🌐</span><span class="og-title">言語・祝日</span><span class="og-desc">8言語・12ヶ国に対応</span></summary>
+      <div class="option-group-body">
+        <p><strong>表示言語:</strong>日本語・English・한국어・Deutsch・Français・Italiano・Español・简体中文の8言語から選べます。切り替えると、サイドバーの文言・曜日/月の見出し・フォントの候補などがまとめて切り替わります。フォントプリセット・デザインプリセットも表示言語ごとに専用のカタログが用意されています。</p>
+        <p><strong>祝日の国:</strong>日本・アメリカ・イギリス・ドイツ・フランス・イタリア・スペイン・カナダ・オーストラリア・韓国・中国・台湾の12ヶ国、または非表示を選べます。すべて計算式のみで求めており、外部通信は発生しません。韓国・中国・台湾は旧正月・中秋節などの太陰太陽暦(旧暦)ベースの祝日にも対応しています。</p>
+        <p class="manual-tip"><strong>表示言語と祝日の国は独立して選べます。</strong>例えば「英語のUIでドイツの祝日を表示する」といった組み合わせも可能です。</p>
+        <p class="manual-caution">国会・議会による一回限りの特例(オリンピック特例の祝日移動など)や、州・地域ごとに異なる祝日には対応していません。</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="privacy">
+      <summary><span class="og-icon" aria-hidden="true">🔒</span><span class="og-title">データとプライバシー</span><span class="og-desc">すべて端末内で完結</span></summary>
+      <div class="option-group-body">
+        <ul>
+          <li>予定・タイトル・概要・すべての印刷設定・背景画像は、ブラウザの<strong>IndexedDB</strong>(この端末の中だけ)に保存されます。</li>
+          <li>サーバーは存在せず、入力データを外部へ送信するコードは含まれていません。</li>
+          <li>フォントの取得のみ、Google Fonts CDNへの通信が(初回、またはキャッシュが切れたときに)発生します。祝日の計算は完全にアプリ内で行われ、通信は発生しません。</li>
+          <li>端末を変える場合は、編集画面メニューの「バックアップを保存」でJSONファイルを書き出し、新しい端末で「復元する」から読み込んでください。</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="limits">
+      <summary><span class="og-icon" aria-hidden="true">⚠️</span><span class="og-title">既知の制限</span></summary>
+      <div class="option-group-body">
+        <ul>
+          <li>対応している祝日は12ヶ国(日・米・英・独・仏・伊・西・加・豪・韓・中・台)のみです。それ以外の国・地域や、州・地方ごとに異なる祝日には対応していません。</li>
+          <li>国会・議会による一回限りの祝日移動の特例には対応していません。</li>
+          <li>ICSインポートは繰り返し予定(RRULE)には対応していません。</li>
+          <li>スマホでの複数日一括選択(範囲ドラッグ)は、現時点ではPC向けのマウス操作のみに対応しています。</li>
+          <li>面付け印刷モードの境界線ドラッグ操作も、現時点ではPC(マウス)向けのみです。</li>
+          <li>マイプリセットのJSON書き出し/読み込みには、背景画像は含まれません。</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="faq">
+      <summary><span class="og-icon" aria-hidden="true">💬</span><span class="og-title">よくある質問</span></summary>
+      <div class="option-group-body">
+        <p><strong>Q. 保存した内容が消えることはありますか?</strong><br>A. ブラウザの「閲覧データを削除」機能でサイトデータを消去すると、IndexedDBの内容も一緒に消えます。定期的に「バックアップを保存」しておくことをおすすめします。</p>
+        <p><strong>Q. 印刷したら思ったレイアウトと違いました。</strong><br>A. ブラウザの印刷ダイアログで「余白:なし」「拡大縮小:100%」になっているか確認してください。</p>
+        <p><strong>Q. 面付け印刷で区画が小さすぎて文字が見えません。</strong><br>A. 面付け設定にある「超コンパクト表示」を有効にすると、日付とアイコンだけの表示に切り替わります。</p>
+        <p><strong>Q. 表示モードを切り替えたら、行間や余白の設定が変わってしまいました。</strong><br>A. これは仕様です。カレンダー/リスト表示用と面付け印刷用の行間・余白は別々に保存されます。それぞれのモードで一度調整すれば、次からはそのモード専用の値として記憶されます。</p>
+      </div>
+    </details>
+  </div>
+
+  <!-- ================= ENGLISH ================= -->
+  <div data-manual-lang="en" class="manual-hidden">
+
+    <p data-anchor="intro" class="manual-intro">
+      FlexCal is a <strong>free, fully offline</strong> calendar print maker. Fill in a calendar with your plans, then print it — or save it as a PDF — on A4 or US Letter paper, in a layout you design yourself. Everything you type is stored only on this device (in the browser's IndexedDB); nothing is ever sent to a server.<br>
+      This guide covers, in order: ① the <strong>Editor screen</strong> (where you enter your plans), and ② the <strong>Print Design screen</strong> (where you style the calendar and print it).
+    </p>
+
+    <details class="option-group" data-anchor="editor" open>
+      <summary><span class="og-icon" aria-hidden="true">✏️</span><span class="og-title">Editor screen (entering your plans)</span><span class="og-desc">Start here to add plans</span></summary>
+      <div class="option-group-body">
+        <h3>Basics</h3>
+        <p>Click (or tap) any day cell to add or edit plans for that day. "Today" jumps back to the current month. The ‹ › arrows move a month at a time, and the dropdown on the right sets how many months are shown at once (1–12).</p>
+
+        <h3>What you can set for each plan</h3>
+        <table>
+          <tr><th>Field</th><th>Notes</th></tr>
+          <tr><td>Start / end time</td><td>Optional</td></tr>
+          <tr><td>Title / subject</td><td>Required</td></tr>
+          <tr><td>Comment (note)</td><td>Optional</td></tr>
+          <tr><td>Icon</td><td>10 categories, 50+ icons (optional)</td></tr>
+          <tr><td>Importance</td><td>Normal / Important / Top priority</td></tr>
+        </table>
+        <p class="manual-tip">Raising the importance level makes the printed cell's border and background stand out more. The cell's size never changes — resizing individual cells used to distort the whole week's row, so this is intentional.</p>
+
+        <h3>Moving and copying plans</h3>
+        <ul>
+          <li><strong>Desktop:</strong> drag a plan chip onto another day to move it. Hold <code>Option</code> (Mac) / <code>Alt</code> (Windows) while dropping to copy it instead.</li>
+          <li><strong>Mobile:</strong> tap the "⠿" handle inside a chip to enter move mode, then tap the destination day. Check "Place as a copy" while in move mode to copy instead of move.</li>
+        </ul>
+
+        <h3>Adding the same plan to several days at once</h3>
+        <p>On desktop, click-and-drag across multiple day cells to select a range, then fill in one plan — it will be added to every selected day.</p>
+
+        <h3>The menu (⋯ button)</h3>
+        <ul>
+          <li><strong>Import:</strong> load <code>.ics</code> or <code>.csv</code> files exported from Google Calendar and similar apps.</li>
+          <li><strong>Export:</strong> save your plans as <code>.ics</code> or <code>.csv</code>.</li>
+          <li><strong>Backup:</strong> save or restore all app data as a single JSON file — use this when switching devices.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="print" open>
+      <summary><span class="og-icon" aria-hidden="true">🖨️</span><span class="og-title">Print Design screen (styling and printing)</span><span class="og-desc">The sidebar has 9 sections</span></summary>
+      <div class="option-group-body">
+        <p>Open this screen from "Prepare to Print" in the editor's header. The sidebar on the left controls the look; the preview on the right updates live. Related settings are grouped under a clickable heading — click one to expand or collapse it.</p>
+        <p class="manual-tip"><strong>If you only touch one thing, make it section ① — that alone is enough for a good-looking result.</strong> Sections ①–④ are open by default; ⑤–⑨ are advanced/detail settings and start collapsed.</p>
+        <table>
+          <tr><th>#</th><th>Section</th><th>Contents</th></tr>
+          <tr><td>①</td><td>Pick a design</td><td>Design presets, My Presets</td></tr>
+          <tr><td>②</td><td>Content</td><td>Title &amp; summary, date range</td></tr>
+          <tr><td>③</td><td>Display mode</td><td>Calendar / List / Planner print, plus planner details</td></tr>
+          <tr><td>④</td><td>Paper &amp; pages</td><td>Paper size &amp; orientation, week start, page count, month breaks</td></tr>
+          <tr><td>⑤</td><td>Colors</td><td>Cell corner radius, color presets, per-day colors &amp; opacity</td></tr>
+          <tr><td>⑥</td><td>Background image</td><td>Background image, opacity, text outline</td></tr>
+          <tr><td>⑦</td><td>Fonts</td><td>Font for each of 5 elements, month-start label</td></tr>
+          <tr><td>⑧</td><td>Language &amp; holidays</td><td>Display language (8 languages), holiday country (12 countries)</td></tr>
+          <tr><td>⑨</td><td>Fine-tuning</td><td>Summary box border, cell auto-sizing, line height, margins, manual column widths</td></tr>
+        </table>
+        <h3>Display mode (③)</h3>
+        <ol>
+          <li><strong>Calendar view:</strong> the standard grid calendar.</li>
+          <li><strong>List view (important days only):</strong> shows only plans marked Important or higher, as a date-ordered list.</li>
+          <li><strong>Planner (N-up) print:</strong> splits one A4 sheet into a grid of smaller regions, each holding its own mini calendar (see the next section).</li>
+        </ol>
+        <h3>Printing / Saving as PDF</h3>
+        <p data-anchor="printing">Click "Print / Save as PDF" at the top of the sidebar to open your browser's print dialog. Print directly, or choose "Save as PDF" to export a PDF file. The zoom controls on the right only affect the on-screen preview — they have no effect on the actual printed paper size.</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="planner">
+      <summary><span class="og-icon" aria-hidden="true">🗂️</span><span class="og-title">Using Planner (N-up) print mode in detail</span><span class="og-desc">Re-lay the calendar out for a paper planner</span></summary>
+      <div class="option-group-body">
+        <ol>
+          <li><strong>Set rows and columns</strong> (1–6 each). For example, 2 rows × 2 columns splits the A4 sheet into 4 regions.</li>
+          <li><strong>Drag the dividers to resize regions freely.</strong> Drag any dotted line in the preview to change how the grid is split. While dragging, the real-world size (mm) is shown live (this doesn't appear when printed). Click "Reset to even grid" to restore equal spacing anytime.</li>
+          <li><strong>Extra shrink factor:</strong> after each region is auto-fit as tightly as possible, use this to shrink it a bit further and leave breathing room.</li>
+          <li><strong>Choose how content is assigned</strong> — three modes:
+            <ul>
+              <li>Same content everywhere (duplicates the whole selected range)</li>
+              <li>Auto split in sequence (divides the range by month, one chunk per region)</li>
+              <li>Assign each region manually (pick a start month and number of months per region)</li>
+            </ul>
+          </li>
+          <li><strong>Ultra-compact display:</strong> if a region is too small to read comfortably, switch to showing just the date number and an icon.</li>
+        </ol>
+        <p class="manual-caution">Dragging the planner's grid dividers currently works with a mouse (desktop) only.</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="presets">
+      <summary><span class="og-icon" aria-hidden="true">🎨</span><span class="og-title">Design presets vs. My Presets</span><span class="og-desc">Both live in section ①</span></summary>
+      <div class="option-group-body">
+        <p><strong>Design presets:</strong> ready-made color+font combinations you pick from. One click changes colors, opacity, corner radius, month label, and all 5 fonts together. 10 presets are included, and you can still fine-tune anything afterward.</p>
+        <p><strong>My Presets:</strong> a snapshot of a setup <em>you</em> built — colors, fonts, planner layout, holidays, spacing, and more — saved under a name you choose. Saved presets can be re-applied anytime from the list. "Export as JSON" saves them to a file you can load on another device with "Import JSON" (background images are not included).</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="locale">
+      <summary><span class="og-icon" aria-hidden="true">🌐</span><span class="og-title">Language &amp; holidays</span><span class="og-desc">8 languages, 12 countries</span></summary>
+      <div class="option-group-body">
+        <p><strong>Display language:</strong> choose from 8 languages — Japanese, English, Korean, German, French, Italian, Spanish, or Simplified Chinese. Switching it updates the sidebar text, weekday/month labels, and font choices all at once. Font presets and design presets are also language-specific.</p>
+        <p><strong>Holiday country:</strong> Japan, United States, United Kingdom, Germany, France, Italy, Spain, Canada, Australia, South Korea, China, Taiwan, or none. All computed with formulas — no external requests are made. South Korea, China, and Taiwan also cover lunisolar (lunar calendar) holidays such as Lunar New Year and Mid-Autumn Festival.</p>
+        <p class="manual-tip"><strong>Display language and holiday country are independent settings</strong> — for example, you can use an English UI while showing German holidays.</p>
+        <p class="manual-caution">One-off holiday changes made by special legislation, and holidays that vary by state/province, are not supported.</p>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="privacy">
+      <summary><span class="og-icon" aria-hidden="true">🔒</span><span class="og-title">Data &amp; privacy</span><span class="og-desc">Everything stays on this device</span></summary>
+      <div class="option-group-body">
+        <ul>
+          <li>Plans, title, summary, every print setting, and any background image are stored only in your browser's <strong>IndexedDB</strong>, on this device.</li>
+          <li>There is no server, and no code sends your data anywhere.</li>
+          <li>The only network request is to load fonts from the Google Fonts CDN (on first load, or after the cache expires). Holiday calculations happen entirely inside the app.</li>
+          <li>To move to a new device, use "Save backup" in the editor's menu to export a JSON file, then "Restore" on the new device to load it.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="limits">
+      <summary><span class="og-icon" aria-hidden="true">⚠️</span><span class="og-title">Known limitations</span></summary>
+      <div class="option-group-body">
+        <ul>
+          <li>Holidays are supported for 12 countries only (Japan, US, UK, Germany, France, Italy, Spain, Canada, Australia, South Korea, China, Taiwan); other regions and state/province-specific holidays are not covered.</li>
+          <li>One-off holiday date changes made by special legislation are not supported.</li>
+          <li>ICS import does not support recurring events (RRULE).</li>
+          <li>Multi-day range selection on mobile currently requires desktop-style mouse dragging.</li>
+          <li>Dragging the Planner mode's grid dividers is desktop (mouse) only for now.</li>
+          <li>My Presets JSON export/import does not include background images.</li>
+        </ul>
+      </div>
+    </details>
+
+    <details class="option-group" data-anchor="faq">
+      <summary><span class="og-icon" aria-hidden="true">💬</span><span class="og-title">FAQ</span></summary>
+      <div class="option-group-body">
+        <p><strong>Q. Can my saved data disappear?</strong><br>A. If you clear your browser's site data for this page, the IndexedDB contents are cleared too. We recommend saving a backup periodically.</p>
+        <p><strong>Q. My printed layout doesn't match what I designed.</strong><br>A. Check your browser's print dialog: set margins to "None" and scale to "100%".</p>
+        <p><strong>Q. In Planner mode, the regions are too small to read.</strong><br>A. Turn on "Ultra-compact display" inside the Planner settings — it switches to showing just the date and an icon.</p>
+        <p><strong>Q. Switching display modes changed my line spacing / margins.</strong><br>A. That's expected — those settings are saved separately for Calendar/List view versus Planner mode, since Planner cells are much smaller. Once you adjust each mode once, it remembers that mode's own values.</p>
+      </div>
+    </details>
+  </div>
+
+  <footer class="manual-footer">© 2026 egoaid</footer>
+</main>
+
+<script src="js/shared.js"></script>
+<script src="js/manual.js"></script>
+
+</body>
+</html>

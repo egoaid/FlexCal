@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self' blob:; base-uri 'self'; form-action 'self';">
+<title data-i18n="print.pageTitle">Print Design | FlexCal — Free A4 Calendar Print Maker</title>
+<meta name="description" content="FlexCalのプリントデザイン画面。配色・フォント・用紙サイズ・面付け印刷などを設定して、自由レイアウトのカレンダーをA4/Letterで印刷・PDF保存できます。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://YOUR_USERNAME.github.io/YOUR_REPO/print.html">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F2A24">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FlexCal">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FlexCal">
+<meta property="og:title" content="Print Design | FlexCal — Free A4 Calendar Print Maker">
+<meta property="og:description" content="Style and print a fully customizable calendar — colors, fonts, paper size, and a Planner (N-up) mode for splitting one sheet into a grid of mini calendars.">
+<meta property="og:url" content="https://YOUR_USERNAME.github.io/YOUR_REPO/print.html">
+<meta property="og:image" content="https://YOUR_USERNAME.github.io/YOUR_REPO/icons/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://YOUR_USERNAME.github.io/YOUR_REPO/icons/og-image.png">
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Google Fontsの<link>は print.js の applyGoogleFontsForLocale() が
+     選択中の表示言語に必要なフォントだけを動的に読み込みます(全言語分を
+     静的に読み込むと種類が多く初期表示が重くなるため)。 -->
+</head>
+<body class="print-page-body">
+
+<header class="app-header no-print">
+  <div class="brand">
+    <a href="index.html" class="back-btn" data-i18n-title="print.back.aria" title="日程入力へ戻る" data-i18n-aria-label="print.back.aria" aria-label="日程入力へ戻る"><span class="back-arrow">✏️</span><span class="back-label" data-i18n="print.back.label">入力へ</span></a>
+    <span class="brand-sep" aria-hidden="true">|</span>
+    <span class="brand-name">FlexCal <span class="brand-sub-inline" data-i18n="print.brandSub">Print Design</span></span>
+  </div>
+  <div class="header-actions">
+    <a href="manual.html" class="btn" data-i18n="print.manual.link">使い方</a>
+    <button id="doPrint" class="btn btn-primary" data-i18n="print.doPrint">印刷 / PDF保存</button>
+  </div>
+</header>
+
+<div class="print-layout">
+  <aside class="print-options no-print">
+
+    <p class="sidebar-intro" data-i18n="sidebar.intro">項目は種類ごとにまとめてあります。見出しをクリックすると開閉します。迷ったら、まず「① デザインをまとめて選ぶ」だけでもきれいに仕上がります。</p>
+
+    <details class="option-group" open>
+      <summary><span class="og-icon" aria-hidden="true">🎨</span><span class="og-title" data-i18n="group.design.title">① デザインをまとめて選ぶ</span><span class="og-desc" data-i18n="group.design.desc">初めての方はここから</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.designPreset.legend">デザインプリセット(配色・フォントをまとめて変更)</legend>
+          <div id="designPresets" class="design-preset-grid"></div>
+          <p class="menu-hint" data-i18n="print.designPreset.hint">クリックすると、配色・マスの不透明度・角丸・月ラベル・フォント(5箇所すべて)がまとめて切り替わります。あとから個別に調整することもできます。</p>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.userPreset.legend">マイプリセット(現在の全設定を保存)</legend>
+          <p class="menu-hint" data-i18n="print.userPreset.hint">配色・フォント・面付け設定・祝日・行間や余白など、現在調整中のすべての設定に名前を付けて保存できます。保存したプリセットはこの端末に残り、JSONファイルとして書き出し/読み込みもできます(背景画像は含まれません)。</p>
+          <div class="btn-row">
+            <button id="saveUserPreset" class="btn" type="button" data-i18n="print.userPreset.save">現在の設定を保存</button>
+            <button id="exportUserPresets" class="btn" type="button" data-i18n="print.userPreset.export">JSONで書き出す</button>
+            <label class="file-btn"><span data-i18n="print.userPreset.import">JSONを読み込む</span><input type="file" id="importUserPresets" accept=".json" hidden></label>
+          </div>
+          <div id="userPresetList" class="user-preset-list"></div>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group" open>
+      <summary><span class="og-icon" aria-hidden="true">📝</span><span class="og-title" data-i18n="group.content.title">② 内容</span><span class="og-desc" data-i18n="group.content.desc">タイトル・概要・期間</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.titleSummary.legend">タイトルと概要</legend>
+          <label><span data-i18n="print.scheduleTitle.label">タイトル</span><input type="text" id="scheduleTitle" maxlength="30" data-i18n-placeholder="print.scheduleTitle.placeholder" placeholder="例:定期考査までのスケジュール"></label>
+          <label><span data-i18n="print.scheduleSummary.label">概要・目標(自由記述)</span><textarea id="scheduleSummary" rows="3" maxlength="200" data-i18n-placeholder="print.scheduleSummary.placeholder" placeholder="例:過去問を3年分やりきる。1日2時間は必ず机に向かう。"></textarea></label>
+          <label><input type="checkbox" id="showDateRange" checked> <span data-i18n="print.showDateRange.label">タイトル右に期間を表示する(例:2026-08-02 - 2026-11-14)</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.range.legend">期間</legend>
+          <label class="range-inline"><span data-i18n="print.rangeStart.label">開始日</span> <input type="date" id="rangeStart"></label>
+          <label class="range-inline"><span data-i18n="print.rangeEnd.label">終了日</span> <input type="date" id="rangeEnd"></label>
+          <p class="menu-hint" data-i18n="print.range.hint">開始日・終了日を指定すると、その前後の不要な週は表示されません。</p>
+          <button id="syncFromEditor" class="btn" type="button" data-i18n="print.syncFromEditor">編集画面の表示範囲を反映</button>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group" open>
+      <summary><span class="og-icon" aria-hidden="true">🗂️</span><span class="og-title" data-i18n="group.mode.title">③ 表示モード</span><span class="og-desc" data-i18n="group.mode.desc">カレンダー / リスト / 面付け印刷</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.mode.legend">表示モード</legend>
+          <label><input type="radio" name="printMode" value="calendar" checked> <span data-i18n="print.mode.calendar">カレンダー表示</span></label>
+          <label><input type="radio" name="printMode" value="list"> <span data-i18n="print.mode.list">重要日のみリスト表示</span></label>
+          <label><input type="radio" name="printMode" value="planner"> <span data-i18n="print.plannerV2.modeLabel">面付け印刷(実験的・第3段階)</span></label>
+        </fieldset>
+
+        <fieldset id="plannerModeSettings">
+          <legend data-i18n="print.plannerV2.legend">面付け設定(表示モードが「面付け印刷」の時のみ表示)</legend>
+          <p class="menu-hint" data-i18n="print.plannerV2.hint">A4用紙を縦横に分割し、各マスの中にカレンダーを自動縮小して詰め込みます。プレビュー上の点線を<strong>ドラッグすると境界線を自由に移動</strong>でき、ドラッグ中は隣り合うマスの実寸(mm)がその場に表示されます(この数値は印刷されません)。行・列の数を変更すると、位置は均等な状態にリセットされます。</p>
+          <label class="range-inline"><span data-i18n="print.plannerV2.rows">縦の分割数(行)</span> <input type="number" id="plannerRows" min="1" max="6" value="2" style="width:60px"></label>
+          <label class="range-inline"><span data-i18n="print.plannerV2.cols">横の分割数(列)</span> <input type="number" id="plannerCols" min="1" max="6" value="2" style="width:60px"></label>
+          <button id="plannerResetGrid" class="btn" type="button" data-i18n="print.plannerV2.resetGrid">マス目を均等に戻す</button>
+          <label class="range-row"><span data-i18n="print.plannerV2.scale">追加の縮小率(マスに自動でぴったり収めた上から、さらに縮小したい場合)</span>
+            <input type="range" id="plannerScale" min="30" max="100" value="100">
+            <span id="plannerScaleValue">100%</span>
+          </label>
+
+          <hr class="field-divider">
+          <label><span data-i18n="print.plannerV2.assignMode.label">内容の割り当て方</span>
+            <select id="plannerAssignMode">
+              <option value="same" data-i18n="print.plannerV2.assignMode.same">全マスに同じ内容(選択期間全体を複製)</option>
+              <option value="auto" data-i18n="print.plannerV2.assignMode.auto">自動で連続分割(期間をマスの数だけ順番に割り振る)</option>
+              <option value="manual" data-i18n="print.plannerV2.assignMode.manual">マスごとに個別に指定する</option>
+            </select>
+          </label>
+          <div id="plannerCellAssignWrap" hidden>
+            <p class="menu-hint" data-i18n="print.plannerV2.cellAssignHint">マスの並び順(左上から右へ、次の行へ)に対応して、開始月とヶ月数を指定してください。</p>
+            <div id="plannerCellAssignGrid" class="planner-cell-assign-grid"></div>
+          </div>
+          <label><input type="checkbox" id="plannerCompact"> <span data-i18n="print.plannerV2.compact">超コンパクト表示(数字+アイコンのみ。タイトル・コメントは表示しない)</span></label>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group" open>
+      <summary><span class="og-icon" aria-hidden="true">📄</span><span class="og-title" data-i18n="group.paper.title">④ 用紙とページ</span><span class="og-desc" data-i18n="group.paper.desc">サイズ・向き・週の始まり・ページ分割</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.paper.legend">用紙サイズ・向き</legend>
+          <label><span data-i18n="print.paper.size.label">サイズ</span>
+            <select id="paperSize">
+              <option value="a4" data-i18n="print.paper.a4">A4(日本・欧州など)</option>
+              <option value="letter" data-i18n="print.paper.letter">US Letter(アメリカ・カナダ)</option>
+            </select>
+          </label>
+          <label><input type="radio" name="orientation" value="portrait" checked> <span data-i18n="print.paper.portrait">縦(ポートレート)</span></label>
+          <label><input type="radio" name="orientation" value="landscape"> <span data-i18n="print.paper.landscape">横(ランドスケープ)</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.weekStart.legend">週の始まり</legend>
+          <label><input type="radio" name="weekStart" value="0" checked> <span data-i18n="print.weekStart.sun">日曜始まり(日本・アメリカなど)</span></label>
+          <label><input type="radio" name="weekStart" value="1"> <span data-i18n="print.weekStart.mon">月曜始まり(ヨーロッパ・ISO 8601)</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.pageFit.legend">ページ数</legend>
+          <label><input type="radio" name="pageFit" value="1" checked> <span data-i18n="print.pageFit.one">A4 1枚に収める(自動縮小)</span></label>
+          <label><input type="radio" name="pageFit" value="free"> <span data-i18n="print.pageFit.free">複数ページを許可する(1ヶ月=1ページ)</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.monthBreak.legend">月の始まり</legend>
+          <label><input type="radio" name="monthBreak" value="0" checked> <span data-i18n="print.monthBreak.off">前月末の隣に続けて配置する(すき間なし)</span></label>
+          <label><input type="radio" name="monthBreak" value="1"> <span data-i18n="print.monthBreak.on">月の始まりで改行する(次の行から)</span></label>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group">
+      <summary><span class="og-icon" aria-hidden="true">🌈</span><span class="og-title" data-i18n="group.colors.title">⑤ 配色</span><span class="og-desc" data-i18n="group.colors.desc">マスの色・角丸</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.cellRadius.legend">マスの角丸</legend>
+          <label class="range-row"><span data-i18n="print.cellRadius.label">角の丸み</span>
+            <input type="range" id="cellRadius" min="0" max="4" step="0.5" value="1">
+            <span id="cellRadiusValue">1mm</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.colorPreset.legend">配色プリセット</legend>
+          <label><input type="radio" name="colorMode" value="color" checked> <span data-i18n="print.colorMode.color">カラー</span></label>
+          <label><input type="radio" name="colorMode" value="mono"> <span data-i18n="print.colorMode.mono">モノクロ</span></label>
+          <div id="colorPresets" class="preset-grid"></div>
+          <button id="resetColors" class="btn" type="button" data-i18n="print.resetColors">既定の配色にリセット</button>
+          <div class="color-grid">
+            <label class="color-row"><span data-i18n="print.color.bg">背景</span> <input type="color" id="colorBg" value="#ffffff"></label>
+            <label class="color-row"><span data-i18n="print.color.ink">文字</span> <input type="color" id="colorInk" value="#202b24"></label>
+            <label class="color-row"><span data-i18n="print.color.line">枠線</span> <input type="color" id="colorLine" value="#dadcd4"></label>
+            <label class="color-row"><span data-i18n="print.color.important">重要日</span> <input type="color" id="colorImportant" value="#2f6f4e"></label>
+            <label class="color-row"><span data-i18n="print.color.top">最重要日</span> <input type="color" id="colorTop" value="#c8443c"></label>
+          </div>
+          <hr class="field-divider">
+          <label class="color-row"><span data-i18n="print.colorNormal.label">通常日の背景色</span> <input type="color" id="colorNormal" value="#ffffff"></label>
+          <label class="range-row"><span data-i18n="print.normalOpacity.label">通常日の不透明度</span>
+            <input type="range" id="normalOpacity" min="0" max="100" value="70">
+            <span id="normalOpacityValue">70%</span>
+          </label>
+          <label class="color-row"><span data-i18n="print.colorEmpty.label">予定のない日の文字色</span> <input type="color" id="colorEmpty" value="#767b74"></label>
+          <hr class="field-divider">
+          <label class="range-row"><span data-i18n="print.importantOpacity.label">重要日の不透明度</span>
+            <input type="range" id="importantOpacity" min="0" max="100" value="16">
+            <span id="importantOpacityValue">16%</span>
+          </label>
+          <label class="range-row"><span data-i18n="print.topOpacity.label">最重要日の不透明度</span>
+            <input type="range" id="topOpacity" min="0" max="100" value="20">
+            <span id="topOpacityValue">20%</span>
+          </label>
+          <p class="menu-hint" data-i18n="print.opacity.hint">背景画像を設定している場合、不透明度を下げるとマスの下の画像が透けて見えるようになります。</p>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group">
+      <summary><span class="og-icon" aria-hidden="true">🖼️</span><span class="og-title" data-i18n="group.bg.title">⑥ 背景画像</span><span class="og-desc" data-i18n="group.bg.desc">任意・文字のフチどりも設定可</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.bgImage.legend">背景画像</legend>
+          <label class="file-btn"><span data-i18n="print.bgImage.fileBtn">画像を選択</span><input type="file" id="bgImageFile" accept="image/*" hidden></label>
+          <button id="bgImageClear" class="btn" type="button" data-i18n="print.bgImage.clear">背景画像を削除</button>
+          <label class="range-row"><span data-i18n="print.bgImageOpacity.label">背景画像の不透明度</span>
+            <input type="range" id="bgImageOpacity" min="0" max="100" value="100">
+            <span id="bgImageOpacityValue">100%</span>
+          </label>
+          <label class="range-row"><span data-i18n="print.textOutline.label">文字のフチどり</span>
+            <select id="textOutline">
+              <option value="none" data-i18n="print.textOutline.none">なし</option>
+              <option value="white" data-i18n="print.textOutline.white">白ふち</option>
+              <option value="black" data-i18n="print.textOutline.black">黒ふち</option>
+            </select>
+          </label>
+          <label class="range-row"><span data-i18n="print.outlineWidth.label">フチの太さ</span>
+            <input type="range" id="outlineWidth" min="0.5" max="4" step="0.5" value="1.5">
+            <span id="outlineWidthValue">1.5px</span>
+          </label>
+          <label class="range-row"><span data-i18n="print.outlineStrength.label">フチの強さ(濃さ)</span>
+            <input type="range" id="outlineStrength" min="1" max="10" value="6">
+            <span id="outlineStrengthValue">6</span>
+          </label>
+          <p class="menu-hint" data-i18n="print.bgImage.hint">背景画像を設定すると文字が読みにくくなる場合があるため、フチどりを推奨します。</p>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group">
+      <summary><span class="og-icon" aria-hidden="true">🔤</span><span class="og-title" data-i18n="group.font.title">⑦ フォント</span><span class="og-desc" data-i18n="group.font.desc">書体・サイズ・太字・月ラベル</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.font.legend">フォント(要素ごとに指定できます)</legend>
+          <div id="fontPresets" class="font-preset-grid"></div>
+          <div class="font-row">
+            <span class="font-row-label" data-i18n="print.font.title">タイトル</span>
+            <select class="font-family-select" data-target="title"></select>
+            <input type="range" class="font-size-range" data-target="title" min="70" max="200" value="130">
+            <label class="bold-toggle"><input type="checkbox" class="font-bold-toggle" data-target="title"> <span data-i18n="print.font.bold">太字</span></label>
+          </div>
+          <div class="font-row">
+            <span class="font-row-label" data-i18n="print.font.summary">概要</span>
+            <select class="font-family-select" data-target="summary"></select>
+            <input type="range" class="font-size-range" data-target="summary" min="70" max="200" value="100">
+            <label class="bold-toggle"><input type="checkbox" class="font-bold-toggle" data-target="summary"> <span data-i18n="print.font.bold">太字</span></label>
+          </div>
+          <div class="font-row">
+            <span class="font-row-label" data-i18n="print.font.weekday">曜日</span>
+            <select class="font-family-select" data-target="weekday"></select>
+            <input type="range" class="font-size-range" data-target="weekday" min="70" max="200" value="90">
+            <label class="bold-toggle"><input type="checkbox" class="font-bold-toggle" data-target="weekday"> <span data-i18n="print.font.bold">太字</span></label>
+          </div>
+          <div class="font-row">
+            <span class="font-row-label" data-i18n="print.font.date">日付</span>
+            <select class="font-family-select" data-target="date"></select>
+            <input type="range" class="font-size-range" data-target="date" min="70" max="200" value="90">
+            <label class="bold-toggle"><input type="checkbox" class="font-bold-toggle" data-target="date"> <span data-i18n="print.font.bold">太字</span></label>
+          </div>
+          <div class="font-row">
+            <span class="font-row-label" data-i18n="print.font.comment">コメント</span>
+            <select class="font-family-select" data-target="comment"></select>
+            <input type="range" class="font-size-range" data-target="comment" min="70" max="200" value="100">
+            <label class="bold-toggle"><input type="checkbox" class="font-bold-toggle" data-target="comment"> <span data-i18n="print.font.bold">太字</span></label>
+          </div>
+          <p class="menu-hint" data-i18n="print.font.hint">数値は基準サイズに対する割合(%)です。太字用の書体データを持たないフォントは、ブラウザが疑似的に太らせて表示します。</p>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.monthLabel.legend">月のはじめの表示</legend>
+          <label><span data-i18n="print.monthLabel.icon.label">アイコン</span>
+            <select id="monthLabelIcon">
+              <option value="" data-i18n="print.monthLabel.icon.none">なし</option>
+              <option value="📌" data-i18n="print.monthLabel.icon.pin">📌 ピン</option>
+              <option value="🗓️" data-i18n="print.monthLabel.icon.deskCal">🗓️ カレンダー(卓上)</option>
+              <option value="📅" data-i18n="print.monthLabel.icon.calendar">📅 カレンダー</option>
+              <option value="▶" data-i18n="print.monthLabel.icon.triangle">▶ 三角</option>
+              <option value="★" data-i18n="print.monthLabel.icon.star">★ 星</option>
+              <option value="●" data-i18n="print.monthLabel.icon.circle">● 丸</option>
+              <option value="😊" data-i18n="print.monthLabel.icon.smile">😊 笑顔</option>
+              <option value="🌙" data-i18n="print.monthLabel.icon.moon">🌙 月</option>
+            </select>
+          </label>
+          <label class="color-row"><span data-i18n="print.monthLabel.color.label">文字色</span> <input type="color" id="monthLabelColor" value="#202b24"></label>
+          <label class="range-row"><span data-i18n="print.monthLabel.size.label">文字サイズ</span>
+            <input type="range" id="monthLabelSize" min="80" max="220" value="130">
+            <span id="monthLabelSizeValue">130%</span>
+          </label>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group">
+      <summary><span class="og-icon" aria-hidden="true">🌐</span><span class="og-title" data-i18n="group.locale.title">⑧ 言語・祝日</span><span class="og-desc" data-i18n="group.locale.desc">表示言語と祝日の設定</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.locale.legend">言語 / 祝日</legend>
+          <label><span data-i18n="print.uiLang.label">表示言語</span>
+            <select id="uiLangSelect"></select>
+          </label>
+          <label><span data-i18n="print.holidayCountry.label">祝日の国</span>
+            <select id="holidayCountrySelect"></select>
+          </label>
+          <label class="color-row"><span data-i18n="print.colorHoliday.label">祝日の文字色</span> <input type="color" id="colorHoliday" value="#c8443c"></label>
+          <p class="menu-hint" data-i18n="print.locale.hint">祝日は法則に基づいて計算しており、外部への通信は行いません。表示言語と祝日の国は独立して選べるので、例えば「英語UIでドイツの祝日を表示する」といった組み合わせも可能です。ドイツ・フランス・イタリア・スペイン・カナダ・オーストラリアは移動祝日を含めて計算していますが、州・地域ごとに異なる祝日には対応していません。韓国・中国・台湾は太陰太陽暦(旧暦)ベースの祝日(旧正月・中秋節など)が単純な式では求められないため、太陽暦の固定祝日のみに対応しています。</p>
+        </fieldset>
+      </div>
+    </details>
+
+    <details class="option-group">
+      <summary><span class="og-icon" aria-hidden="true">🛠️</span><span class="og-title" data-i18n="group.fine.title">⑨ 細かい調整</span><span class="og-desc" data-i18n="group.fine.desc">上級者向け:行間・余白・自動調整など</span></summary>
+      <div class="option-group-body">
+        <fieldset>
+          <legend data-i18n="print.summaryBorder.legend">概要欄の枠</legend>
+          <label><span data-i18n="print.summaryBorder.label">枠線</span>
+            <select id="summaryBorderStyle">
+              <option value="dashed" data-i18n="print.summaryBorder.dashed">点線</option>
+              <option value="solid" data-i18n="print.summaryBorder.solid">実線</option>
+              <option value="none" data-i18n="print.summaryBorder.none">なし</option>
+            </select>
+          </label>
+          <label class="color-row"><span data-i18n="print.summaryBg.label">枠の中の背景色</span> <input type="color" id="summaryBg" value="#ffffff"></label>
+          <label class="range-row"><span data-i18n="print.summaryBgOpacity.label">背景の不透明度</span>
+            <input type="range" id="summaryBgOpacity" min="0" max="100" value="0">
+            <span id="summaryBgOpacityValue">0%</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.autoResize.legend">マスのサイズ自動調整</legend>
+          <label><input type="checkbox" id="autoResize" checked> <span data-i18n="print.autoResize.label">文字量に応じてマスの幅・高さを自動調整する</span></label>
+          <p class="menu-hint" data-i18n="print.autoResize.hint">文字が多い日はマスが大きくなり、その分、予定のない日は小さくなります。列の幅はページ内で揃えられます。</p>
+          <label><input type="radio" name="wrapMode" value="wrap" checked> <span data-i18n="print.wrapMode.wrap">文字を折り返して全文表示する</span></label>
+          <label><input type="radio" name="wrapMode" value="nowrap"> <span data-i18n="print.wrapMode.nowrap">折り返さず、はみ出た分は省略(…)する</span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.lineHeight.legend">マス内の行間</legend>
+          <label class="range-row"><span data-i18n="print.lineHeight.label">時刻・タイトル・コメントの行間</span>
+            <input type="range" id="cellLineHeight" min="90" max="200" value="125">
+            <span id="cellLineHeightValue">125%</span>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.margin.legend">ページの余白</legend>
+          <label><input type="checkbox" id="fillPageHeight"> <span data-i18n="print.fillPageHeight.label">マスの高さを広げてページいっぱいに埋める</span></label>
+          <p class="menu-hint" data-i18n="print.fillPageHeight.hint">下部に空白ができる場合、文字サイズはそのままでマスの高さだけを伸ばして埋めます。</p>
+          <label class="range-row"><span data-i18n="print.cellPadTop.label">マス内の上余白</span>
+            <input type="range" id="cellPadTop" min="0" max="6" step="0.5" value="1">
+            <span id="cellPadTopValue">1mm</span>
+          </label>
+          <label class="range-row"><span data-i18n="print.cellPadBottom.label">マス内の下余白</span>
+            <input type="range" id="cellPadBottom" min="0" max="6" step="0.5" value="1">
+            <span id="cellPadBottomValue">1mm</span>
+          </label>
+          <p class="menu-hint" data-i18n="print.cellPad.hint">自動調整で思ったほど埋まらない場合は、こちらの余白を大きくすると手動でマスを大きくできます。</p>
+        </fieldset>
+
+        <fieldset>
+          <legend data-i18n="print.manualWidth.legend">曜日ごとの幅を手動指定</legend>
+          <label><input type="checkbox" id="manualWidthMode"> <span data-i18n="print.manualWidth.label">自動調整の代わりに、下の数値で幅を指定する</span></label>
+          <div class="weekday-width-grid" id="weekdayWidthGrid"></div>
+        </fieldset>
+      </div>
+    </details>
+
+    <p class="menu-hint" id="rangeEcho"></p>
+  </aside>
+
+  <main class="preview-area">
+    <div class="zoom-bar no-print">
+      <button id="zoomOut" class="icon-btn" data-i18n-aria-label="print.zoom.out.aria" aria-label="縮小">−</button>
+      <span id="zoomValue">55%</span>
+      <button id="zoomIn" class="icon-btn" data-i18n-aria-label="print.zoom.in.aria" aria-label="拡大">+</button>
+      <button id="zoomFit" class="btn" data-i18n="print.zoom.fit">画面に合わせる</button>
+    </div>
+    <div id="previewPages" class="preview-pages"></div>
+  </main>
+</div>
+
+<script src="js/shared.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/print.js"></script>
+</body>
+</html>

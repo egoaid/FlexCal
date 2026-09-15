@@ -1,0 +1,40 @@
+{
+  "name": "FlexCal - Free A4 Calendar Print Maker",
+  "short_name": "FlexCal",
+  "description": "日程を自由レイアウトでA4/Letterに印刷できる、無料・完全オフライン動作のカレンダーアプリ / A free, fully offline app for designing and printing a flexible-layout calendar on A4 or US Letter paper.",
+  "id": "/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F5F6F2",
+  "theme_color": "#1F2A24",
+  "lang": "ja",
+  "dir": "ltr",
+  "categories": ["productivity", "utilities", "lifestyle"],
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icons/favicon-16.png", "sizes": "16x16", "type": "image/png", "purpose": "any" },
+    { "src": "icons/favicon-32.png", "sizes": "32x32", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-192-maskable.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    {
+      "name": "プリントデザイン / Print Design",
+      "short_name": "Print",
+      "description": "カレンダーの見た目を整えて印刷する画面を開く / Open the print design screen",
+      "url": "./print.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "使い方ガイド / User Guide",
+      "short_name": "Guide",
+      "description": "アプリの使い方ガイドを開く / Open the in-app user guide",
+      "url": "./manual.html",
+      "icons": [{ "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ]
+}

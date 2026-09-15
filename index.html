@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-NcESf5n+ADnhijKAgGlLyqX3ElyoHxwzlD43twotbbs='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; manifest-src 'self' blob:; base-uri 'self'; form-action 'self';">
+<title data-i18n="app.title">FlexCal — Free A4 Calendar Print Maker | 無料の自由レイアウト印刷カレンダー</title>
+<meta name="description" content="FlexCal(フレックスカレンダー)は、日程をマスに書き込んで自由レイアウトのカレンダーをA4/Letterで印刷できる無料アプリです。データは端末内にのみ保存されます。8言語対応、12ヶ国の祝日計算にも対応。">
+<meta name="robots" content="index, follow">
+<meta name="author" content="FlexCal contributors">
+<link rel="canonical" href="https://YOUR_USERNAME.github.io/YOUR_REPO/index.html">
+
+<!-- PWA manifest & icons -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1F2A24">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="FlexCal">
+<meta name="mobile-web-app-capable" content="yes">
+
+<!-- Open Graph / social sharing -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FlexCal">
+<meta property="og:title" content="FlexCal — Free A4 Calendar Print Maker">
+<meta property="og:description" content="A free, fully offline calendar print maker. Design a flexible-layout calendar and print it on A4/Letter — no sign-up, no server, no tracking. 8 languages, 12 countries' holidays.">
+<meta property="og:url" content="https://YOUR_USERNAME.github.io/YOUR_REPO/index.html">
+<meta property="og:image" content="https://YOUR_USERNAME.github.io/YOUR_REPO/icons/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FlexCal — Free A4 Calendar Print Maker">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:locale:alternate" content="en_US">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FlexCal — Free A4 Calendar Print Maker">
+<meta name="twitter:description" content="A free, fully offline calendar print maker with flexible layouts, 8 UI languages, and holiday calculation for 12 countries. No sign-up, no server, no tracking.">
+<meta name="twitter:image" content="https://YOUR_USERNAME.github.io/YOUR_REPO/icons/og-image.png">
+
+<link rel="stylesheet" href="css/style.css">
+
+<!-- Structured data for search engines & AI answer engines -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "FlexCal",
+  "alternateName": "FlexCal — Free A4 Calendar Print Maker",
+  "url": "https://YOUR_USERNAME.github.io/YOUR_REPO/index.html",
+  "description": "A free, fully offline calendar print maker. Design a flexible-layout calendar and print it on A4 or US Letter paper. All data stays on-device; no account or server required. Available in 8 languages with holiday calculation for 12 countries.",
+  "applicationCategory": "Productivity",
+  "operatingSystem": "Any (runs in a web browser)",
+  "browserRequirements": "Requires a modern web browser with JavaScript enabled",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "inLanguage": ["ja", "en", "ko", "de", "fr", "it", "es", "zh"],
+  "isAccessibleForFree": true,
+  "license": "https://YOUR_USERNAME.github.io/YOUR_REPO/LICENSE",
+  "featureList": [
+    "Flexible, freely customizable calendar layout printing on A4/US Letter",
+    "Planner (N-up) print mode: split one sheet into a grid of mini calendars",
+    "8 UI languages and holiday calculation for 12 countries",
+    "ICS/CSV import and export, full JSON backup/restore",
+    "Fully offline after first load; all data stored only on-device (IndexedDB)"
+  ]
+}
+</script>
+</head>
+<body>
+
+<!-- ============ 移動モード用バナー(スマホでのドラッグ代替UI) ============ -->
+<div id="moveBanner" class="move-banner no-print" hidden>
+  <span id="moveBannerText"></span>
+  <label class="move-copy-toggle"><input type="checkbox" id="moveAsCopy"> <span data-i18n="moveBanner.copyToggle">コピーとして配置</span></label>
+  <button id="moveCancel" class="btn" data-i18n="moveBanner.cancel">キャンセル</button>
+</div>
+
+<!-- ============ ヘッダー ============ -->
+<header class="app-header no-print">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">▦</span>
+    <span class="brand-name">FlexCal</span>
+    <span class="brand-sub" data-i18n="app.brandSub">free calendar print</span>
+  </div>
+
+  <select id="uiLangSelect" class="locale-select" data-i18n-aria-label="menu.uiLang.heading" aria-label="表示言語"></select>
+  <select id="holidayCountrySelect" class="locale-select" data-i18n-aria-label="menu.holidayCountry.heading" aria-label="祝日の国"></select>
+
+  <nav class="month-nav">
+    <button id="todayBtn" class="btn btn-today" data-i18n="nav.today">今日</button>
+    <button id="prevMonth" class="icon-btn" data-i18n-aria-label="nav.prevMonth" aria-label="前の月">‹</button>
+    <div id="monthRangeLabel" class="month-range-label"></div>
+    <button id="nextMonth" class="icon-btn" data-i18n-aria-label="nav.nextMonth" aria-label="次の月">›</button>
+    <select id="spanMonths" data-i18n-aria-label="nav.spanMonths.aria" aria-label="表示する月数"></select>
+  </nav>
+
+  <div class="header-actions">
+    <a id="openPrintPanel" href="print.html" class="btn btn-primary" data-i18n="header.printPanel">プリント準備</a>
+    <button id="openMenu" class="icon-btn" data-i18n-aria-label="header.menu.aria" aria-label="メニュー">⋯</button>
+  </div>
+</header>
+
+<!-- ============ サイドメニュー(インポート/エクスポート/バックアップ/設定) ============ -->
+<aside id="sideMenu" class="side-menu no-print" hidden>
+  <div class="side-menu-inner">
+    <h2 data-i18n="menu.heading">メニュー</h2>
+
+    <section class="menu-group">
+      <h3 data-i18n="menu.privacy.heading">データ保存について</h3>
+      <p class="privacy-note">
+        <strong data-i18n="menu.privacy.strong">入力した予定は、この端末の中だけに保存されます。</strong><br>
+        <span data-i18n="menu.privacy.body">サーバーへの送信や外部への送信は一切行いません。アプリの読み込み以降、通信は発生しません。</span>
+        <a href="#" id="showPrivacyDetail" data-i18n="menu.privacy.detail">くわしく見る</a>
+      </p>
+    </section>
+
+    <section class="menu-group">
+      <h3><span data-i18n="menu.import.heading">読み込み(インポート)</span><span class="badge" data-i18n="menu.import.badge">上級者向け</span></h3>
+      <p class="menu-hint" data-i18n="menu.import.hint">GoogleカレンダーなどからエクスポートしたICS/CSVファイルを読み込みます。</p>
+      <label class="file-btn">
+        <span data-i18n="menu.import.fileBtn">ファイルを選択(.ics / .csv)</span>
+        <input type="file" id="importFile" accept=".ics,.csv" hidden>
+      </label>
+      <div id="importSummary" class="import-summary"></div>
+    </section>
+
+    <section class="menu-group">
+      <h3 data-i18n="menu.export.heading">書き出し(エクスポート)</h3>
+      <div class="btn-row">
+        <button id="exportIcs" class="btn" data-i18n="menu.export.ics">.icsで書き出す</button>
+        <button id="exportCsv" class="btn" data-i18n="menu.export.csv">.csvで書き出す</button>
+      </div>
+    </section>
+
+    <section class="menu-group">
+      <h3 data-i18n="menu.backup.heading">バックアップ</h3>
+      <p class="menu-hint" data-i18n="menu.backup.hint">全データをファイルに保存/復元できます(端末変更・機種変更のときに)。</p>
+      <div class="btn-row">
+        <button id="backupExport" class="btn" data-i18n="menu.backup.export">バックアップを保存</button>
+        <label class="file-btn">
+          <span data-i18n="menu.backup.import">復元する</span>
+          <input type="file" id="backupImport" accept=".json" hidden>
+        </label>
+      </div>
+    </section>
+
+    <section class="menu-group">
+      <h3 data-i18n="menu.manual.heading">使い方ガイド</h3>
+      <p class="menu-hint" data-i18n="menu.manual.hint">アプリの使い方をまとめて確認できます。</p>
+      <a href="manual.html" class="btn btn-block" data-i18n="menu.manual.link">使い方ガイドを開く</a>
+    </section>
+
+    <section class="menu-group">
+      <h3 data-i18n="menu.about.heading">このアプリについて</h3>
+      <p class="menu-hint" data-i18n="menu.about.body">
+        本体(アプリの画面)はGitHub Pagesから読み込まれますが、GitHub Pages自体に閲覧解析(アクセス解析)機能は付いていません。
+        このアプリでも解析タグ・広告タグの類は一切組み込んでいません。
+      </p>
+      <p class="menu-hint app-copyright">© 2026 egoaid</p>
+    </section>
+
+    <button id="closeMenu" class="btn btn-block" data-i18n="menu.close">閉じる</button>
+  </div>
+</aside>
+
+<!-- ============ メイン:カレンダー編集エリア ============ -->
+<main id="calendarRoot" class="calendar-root"></main>
+
+<!-- ============ 日付編集モーダル ============ -->
+<div id="dayModal" class="modal-backdrop no-print" hidden>
+  <div class="modal">
+    <header class="modal-header">
+      <h2 id="dayModalDate">—</h2>
+      <button id="dayModalClose" class="icon-btn" data-i18n-aria-label="modal.close.aria" aria-label="閉じる">×</button>
+    </header>
+
+    <p id="bulkNotice" class="bulk-notice" hidden></p>
+
+    <div id="eventListSection">
+      <div id="eventList" class="event-list"></div>
+    </div>
+
+    <form id="eventForm" class="event-form">
+      <div class="form-row">
+        <label><span data-i18n="form.startTime">開始時刻</span><input type="time" id="evTime"></label>
+        <label><span data-i18n="form.endTime">終了時刻</span><input type="time" id="evEndTime"></label>
+      </div>
+      <div class="form-row">
+        <label class="grow"><span data-i18n="form.title">タイトル / 科目</span><input type="text" id="evTitle" data-i18n-placeholder="form.title.placeholder" placeholder="例:数学 定期考査" required></label>
+      </div>
+      <label><span data-i18n="form.comment">コメント(メモ)</span><textarea id="evComment" rows="2" data-i18n-placeholder="form.comment.placeholder" placeholder="例:範囲は3章まで"></textarea></label>
+      <label class="importance-picker">
+        <span data-i18n="form.icon">アイコン(任意)</span>
+        <div class="icon-category-tabs" id="iconCategoryTabs"></div>
+        <div class="chip-group icon-picker" id="iconPicker"></div>
+      </label>
+      <label class="importance-picker">
+        <span data-i18n="form.importance">重要度</span>
+        <div class="chip-group" id="importanceChips">
+          <button type="button" class="chip" data-level="0" data-i18n="chip.normal">通常</button>
+          <button type="button" class="chip" data-level="1" data-i18n="chip.important">重要</button>
+          <button type="button" class="chip" data-level="2" data-i18n="chip.top">最重要</button>
+        </div>
+      </label>
+      <div class="btn-row">
+        <button type="submit" id="eventSubmitBtn" class="btn btn-primary" data-i18n="form.submit.add">この日に追加</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="js/shared.js"></script>
+<script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
