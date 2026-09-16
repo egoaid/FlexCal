@@ -45,4 +45,4 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-Sitemap: https://YOUR_USERNAME.github.io/YOUR_REPO/sitemap.xml
+Sitemap: https://egoaid.github.io/FlexCal/sitemap.xml

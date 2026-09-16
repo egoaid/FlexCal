@@ -2,6 +2,8 @@
 
 ![FlexCal](./icons/og-image.png)
 
+**🔗 [https://egoaid.github.io/FlexCal/](https://egoaid.github.io/FlexCal/)**
+
 日程をマスに書き込んで、自分だけの自由レイアウトカレンダーをA4/US Letterで印刷できる、**無料・完全オフライン動作**のアプリです。サインアップ不要・広告なし・追跡なし。入力したデータはお使いの端末の中にだけ保存されます。
 
 ## 主な機能
