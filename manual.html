@@ -109,6 +109,7 @@
       FlexCal(フレックスカレンダー)は、日程をマスに書き込んで、自由なレイアウトでA4(またはUS Letter)に印刷できる、<strong>無料・完全オフライン動作</strong>のカレンダー印刷アプリです。入力したデータはこの端末の中(ブラウザのIndexedDB)にだけ保存され、サーバーへの送信は一切行われません。<br>
       このガイドは、① <strong>編集画面</strong>(日程を入力する画面)と ② <strong>プリントデザイン画面</strong>(見た目を整えて印刷する画面)の順に使い方を説明します。
     </p>
+    <p class="manual-caution">FlexCalは「印刷すること」自体がメイン機能のため、<strong>デスクトップ・ノートPCのブラウザでの利用を基本</strong>としています。スマホで使う場合も、ホーム画面に追加せず通常のブラウザ画面のままご利用ください(詳しくは「印刷・PDF保存」および「既知の制限」の章を参照)。</p>
 
     <details class="option-group" data-anchor="editor" open>
       <summary><span class="og-icon" aria-hidden="true">✏️</span><span class="og-title">編集画面(日程の入力)</span><span class="og-desc">まずはここで予定を入れる</span></summary>
@@ -170,6 +171,7 @@
         </ol>
         <h3>印刷・PDF保存</h3>
         <p data-anchor="printing">サイドバー上部の「印刷 / PDF保存」ボタンを押すと、ブラウザの印刷ダイアログが開きます。プリンターで直接印刷するほか、「PDFとして保存」を選べばPDFファイルとして書き出せます。画面右側のズームバーはあくまでプレビューの見た目の拡大縮小であり、実際に印刷される用紙のサイズには影響しません。</p>
+        <p class="manual-caution"><strong>iPhoneで「ホーム画面に追加」して起動している場合、この印刷ダイアログが開きません(iOS側の既知の制限で、現時点では対応できていません)。</strong>印刷・PDF保存を行う際は、ホーム画面のアイコンからではなく、Safariなど通常のブラウザでこのページを開いてお試しください。</p>
       </div>
     </details>
 
@@ -233,6 +235,7 @@
           <li>スマホでの複数日一括選択(範囲ドラッグ)は、現時点ではPC向けのマウス操作のみに対応しています。</li>
           <li>面付け印刷モードの境界線ドラッグ操作も、現時点ではPC(マウス)向けのみです。</li>
           <li>マイプリセットのJSON書き出し/読み込みには、背景画像は含まれません。</li>
+          <li><strong>PWA(ホーム画面への追加)には完全対応できていません。</strong> 特にiPhoneでホーム画面に追加した状態(standalone表示)では、iOS側の既知の制限により印刷/PDF保存ができません。これはFlexCal固有の不具合ではなく、iOSのホーム画面アプリにおける長年未修正のOS側の制限です。FlexCalはデスクトップのブラウザでの利用を基本としており、スマホで使う場合もホーム画面に追加せず通常のブラウザでのご利用を推奨します。</li>
         </ul>
       </div>
     </details>
@@ -240,6 +243,7 @@
     <details class="option-group" data-anchor="faq">
       <summary><span class="og-icon" aria-hidden="true">💬</span><span class="og-title">よくある質問</span></summary>
       <div class="option-group-body">
+        <p><strong>Q. iPhoneのホーム画面に追加して使ってもいいですか?</strong><br>A. 予定の入力・編集は問題なく使えますが、印刷/PDF保存はできません(iOS側の既知の制限です)。FlexCalは印刷が主機能のアプリのため、ホーム画面には追加せず、SafariなどのブラウザでそのままURLを開いてご利用ください。デスクトップ・ノートPCでの利用を基本としています。</p>
         <p><strong>Q. 保存した内容が消えることはありますか?</strong><br>A. ブラウザの「閲覧データを削除」機能でサイトデータを消去すると、IndexedDBの内容も一緒に消えます。定期的に「バックアップを保存」しておくことをおすすめします。</p>
         <p><strong>Q. 印刷したら思ったレイアウトと違いました。</strong><br>A. ブラウザの印刷ダイアログで「余白:なし」「拡大縮小:100%」になっているか確認してください。</p>
         <p><strong>Q. 面付け印刷で区画が小さすぎて文字が見えません。</strong><br>A. 面付け設定にある「超コンパクト表示」を有効にすると、日付とアイコンだけの表示に切り替わります。</p>
@@ -255,6 +259,7 @@
       FlexCal is a <strong>free, fully offline</strong> calendar print maker. Fill in a calendar with your plans, then print it — or save it as a PDF — on A4 or US Letter paper, in a layout you design yourself. Everything you type is stored only on this device (in the browser's IndexedDB); nothing is ever sent to a server.<br>
       This guide covers, in order: ① the <strong>Editor screen</strong> (where you enter your plans), and ② the <strong>Print Design screen</strong> (where you style the calendar and print it).
     </p>
+    <p class="manual-caution">Since printing is FlexCal's main purpose, it's designed primarily for <strong>desktop/laptop browsers</strong>. If you use it on a phone, please keep it open in your regular browser rather than adding it to the home screen (see "Printing / Saving as PDF" and "Known limitations" below).</p>
 
     <details class="option-group" data-anchor="editor" open>
       <summary><span class="og-icon" aria-hidden="true">✏️</span><span class="og-title">Editor screen (entering your plans)</span><span class="og-desc">Start here to add plans</span></summary>
@@ -316,6 +321,7 @@
         </ol>
         <h3>Printing / Saving as PDF</h3>
         <p data-anchor="printing">Click "Print / Save as PDF" at the top of the sidebar to open your browser's print dialog. Print directly, or choose "Save as PDF" to export a PDF file. The zoom controls on the right only affect the on-screen preview — they have no effect on the actual printed paper size.</p>
+        <p class="manual-caution"><strong>If you launch FlexCal from an icon added to the iPhone Home Screen, this print dialog will not open (a known iOS limitation we cannot currently work around).</strong> To print or save a PDF, please open this page in a regular browser such as Safari instead of the Home Screen icon.</p>
       </div>
     </details>
 
@@ -379,6 +385,7 @@
           <li>Multi-day range selection on mobile currently requires desktop-style mouse dragging.</li>
           <li>Dragging the Planner mode's grid dividers is desktop (mouse) only for now.</li>
           <li>My Presets JSON export/import does not include background images.</li>
+          <li><strong>PWA support (adding to the home screen) is not fully working.</strong> In particular, when launched from an icon added to the iPhone Home Screen (standalone display), printing/saving a PDF does not work, due to a known iOS-side limitation. This is not a FlexCal-specific bug — it's a long-standing, unresolved OS limitation affecting home-screen web apps on iOS. FlexCal is designed primarily for desktop browsers; on mobile, please use it in your regular browser rather than adding it to the home screen.</li>
         </ul>
       </div>
     </details>
@@ -386,6 +393,7 @@
     <details class="option-group" data-anchor="faq">
       <summary><span class="og-icon" aria-hidden="true">💬</span><span class="og-title">FAQ</span></summary>
       <div class="option-group-body">
+        <p><strong>Q. Can I add FlexCal to my iPhone Home Screen?</strong><br>A. Entering and editing plans works fine, but printing/saving a PDF will not work (a known iOS limitation). Since printing is FlexCal's main purpose, please don't add it to the Home Screen — just open the URL in Safari or another browser instead. It's designed primarily for desktop/laptop use.</p>
         <p><strong>Q. Can my saved data disappear?</strong><br>A. If you clear your browser's site data for this page, the IndexedDB contents are cleared too. We recommend saving a backup periodically.</p>
         <p><strong>Q. My printed layout doesn't match what I designed.</strong><br>A. Check your browser's print dialog: set margins to "None" and scale to "100%".</p>
         <p><strong>Q. In Planner mode, the regions are too small to read.</strong><br>A. Turn on "Ultra-compact display" inside the Planner settings — it switches to showing just the date and an icon.</p>
